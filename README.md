@@ -7,13 +7,13 @@ smooth effects, with different covariates and spline bases allowed in the
 two margins.
 
 The package provides conditional quantile predictions, smooth-effect plots,
-reference-assisted pointwise confidence intervals, numerical convergence
+auxiliary-bootstrap pointwise confidence intervals, numerical convergence
 checks and Rosenblatt residual diagnostics.
 
 ## Downloads
 
-- [R source package: CJQR 0.22.1](CJQR_0.22.1.tar.gz)
-- [Reference manual](CJQR_0.22.1_reference_manual.pdf)
+- [R source package: CJQR 0.22.2](CJQR_0.22.2.tar.gz)
+- [Reference manual](CJQR_0.22.2_reference_manual.pdf)
 
 ## Installation
 
@@ -22,7 +22,7 @@ the downloaded archive:
 
 ```r
 install.packages(c("mgcv", "qgam", "survival"))
-install.packages("CJQR_0.22.1.tar.gz", repos = NULL, type = "source")
+install.packages("CJQR_0.22.2.tar.gz", repos = NULL, type = "source")
 
 library(CJQR)
 ```
@@ -114,18 +114,20 @@ head(as.data.frame(ci))
 ```
 
 Quantile intervals and smooth-plot intervals use a paired-subject bootstrap
-of auxiliary least-squares regressions. Reference intervals are enlarged,
+of auxiliary least-squares regressions. Auxiliary intervals are enlarged,
 if necessary, to contain the unchanged joint estimates. The joint model is
 not refitted. These are pointwise confidence intervals, not simultaneous
 bands, prediction intervals or joint-model standard errors.
 
 The default `summary(fit)` does not perform bootstrap inference. Experimental
-reference-assisted effect inference can be requested explicitly:
+auxiliary-bootstrap effect inference can be requested explicitly:
 
 ```r
-summary(fit, inference = "reference", B = 500, seed = 2)
+summary(fit, inference = "auxiliary", B = 500, seed = 2)
 ```
 
+The older option `inference = "reference"` remains supported. Auxiliary
+inference is separate from the fitting level selected through `anchors`.
 See the reference manual for the assumptions and limitations of coefficient,
 smooth-effect and dependence inference.
 
@@ -165,7 +167,7 @@ copula, not the marginal distributions. For a Student-t copula, set
   `na.action = stats::na.omit` uses a common complete-case sample.
 - Observation weights and offsets are not supported. Coordinate-based
   smooths describe covariate effects, not residual spatial dependence.
-- Reference-assisted inference requires an adequate, full-rank fixed basis,
+- Auxiliary-bootstrap inference requires an adequate, full-rank fixed basis,
   finite-variance common errors independent of covariates, and positive
   continuous error density at the target quantiles. Nominal finite-sample
   coverage is not guaranteed; these procedures do not provide general
@@ -188,7 +190,7 @@ help("CJQR-package", package = "CJQR")
 citation("CJQR")
 ```
 
-The [reference manual](CJQR_0.22.1_reference_manual.pdf) documents the
+The [reference manual](CJQR_0.22.2_reference_manual.pdf) documents the
 functions, arguments and returned objects. Please cite the package when
 using it in published work and record the package version and
 `sessionInfo()` for reproducibility.
